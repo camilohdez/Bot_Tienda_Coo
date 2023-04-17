@@ -1,0 +1,24 @@
+#parte reconocimiento de la barra de busqueda
+
+"""import unittest
+from selenium import webdriver
+
+
+class HomePageTests(unittest.TestCase):
+
+    def setUp(self):
+        self.driver = webdriver.Chrome(executable_path = r'C:\Program Files (x86)\chromedriver.exe')
+        driver = self.driver
+        driver.get('https://www.tiendacoomeva.com/')
+        driver.maximize_window()
+        driver.implicitly_wait(40)
+    
+    def test_search_text_field_class_name(self):
+        search_field = self.driver.find_element_by_class_name("")
+        
+    def tearDown(self):
+        self.driver.quit()
+    
+
+if __name__ == "__main__":
+    unittest.main(verbosity=2)"""
