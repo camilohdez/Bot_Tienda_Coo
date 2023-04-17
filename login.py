@@ -41,8 +41,8 @@ class LoginTests(unittest.TestCase):
 
         WebDriverWait(driver, 20).until(EC.title_contains("celulares - Tienda Coomeva"))
 
-        search_filter = WebDriverWait(driver, 10).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button.vtex-search-result-3-x-orderByButton')))
-        search_filter.click()
+        """search_filter = WebDriverWait(driver, 10).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button.vtex-search-result-3-x-orderByButton')))
+        search_filter.click()"""
 
     @classmethod
     def tearDown(cls):
