@@ -17,37 +17,44 @@ class LoginTests(unittest.TestCase):
         cls.driver.maximize_window()
         cls.driver.implicitly_wait(20)
 
+    def wait_for_element(self, locator, timeout=10):
+        return WebDriverWait(self.driver, timeout).until(EC.visibility_of_element_located(locator))
+
     def test_click_login_button(self):
         driver = self.driver
-        login_form= driver.find_element(By.XPATH, '//button[contains(@class, "vtex-button") and contains(@class, "t-action")]//span[contains(text(), "Entrar")]')
-        login_form.click()
-        
-        user_name = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.ID, 'username')))
+
+        # Haz clic en el botón de inicio de sesión
+        login_button = self.wait_for_element((By.XPATH, '//button[contains(@class, "vtex-button") and contains(@class, "t-action")]//span[contains(text(), "Entrar")]'))
+        login_button.click()
+
+        # Inicia sesión con nombre de usuario y contraseña
+        user_name = self.wait_for_element((By.ID, 'username'))
         user_name.clear()
         user_name.send_keys("1006036088")
 
-        password = driver.find_element(By.ID,'password')
+        password = self.wait_for_element((By.ID,'password'))
         password.clear()
         password.send_keys("Vane-0530.")
         password.send_keys(Keys.RETURN)
 
+        # Espera hasta que la página de inicio de sesión se cargue correctamente
         WebDriverWait(driver, 10).until(EC.title_contains("Coomeva"))
 
-        search_field = WebDriverWait(self.driver, 20).until(EC.visibility_of_element_located((By.XPATH, "//input[@placeholder='¿Qué estás buscando hoy?']")))
+        # Busca productos en la barra de búsqueda
+        search_field = self.wait_for_element((By.XPATH, "//input[@placeholder='¿Qué estás buscando hoy?']"))
         search_field.send_keys("celulares")
+        search_field.send_keys(Keys.ENTER)
 
-        search_button = WebDriverWait(driver, 10).until(EC.visibility_of_element_located((By.CSS_SELECTOR, 'button.vtex-store-components-3-x-searchBarIcon')))
-        search_button.click()
-
+        # Espera hasta que se carguen los resultados de búsqueda
         WebDriverWait(driver, 20).until(EC.title_contains("celulares - Tienda Coomeva"))
 
-        search_filter = WebDriverWait(driver, 10).until(EC.visibility_of_all_elements_located((By.CSS_SELECTOR, 'button.vtex-search-result-3-x-orderByButton')))
-        search_filter.click()
+        # Filtra los resultados de búsqueda por precio
+        search_filters = self.wait_for_element((By.CSS_SELECTOR, 'button.vtex-search-result-3-x-orderByButton'), 20)
+        search_filters.click()
 
     @classmethod
     def tearDown(cls):
         cls.driver.quit()
-        
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
